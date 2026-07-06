@@ -1,0 +1,29 @@
+# Roles y permisos de la demo.
+# Capa pluggable: hoy es un YAML; mañana se reemplaza por una tabla en SQL
+# implementando la misma interfaz PermissionProvider (ver src/rbac.py).
+# La zona del usuario es la que se inyecta como @nrorep en los SP.
+
+usuarios:
+  vendedor1:
+    rol: vendedor
+    zonas: [1]
+  vendedor2:
+    rol: vendedor
+    zonas: [2, 3]
+  gerente1:
+    rol: gerente
+    zonas: "*"        # todas
+
+# Qué tools puede usar cada rol
+permisos:
+  vendedor:
+    - consultar_deuda
+    - detalle_movimientos
+    - clientes_por_zona
+    - buscar_cliente_por_nombre
+  gerente:
+    - consultar_deuda
+    - detalle_movimientos
+    - clientes_por_zona
+    - consulta_custom   # consolidados de todas las zonas (Etapa 4)
+    - buscar_cliente_por_nombre

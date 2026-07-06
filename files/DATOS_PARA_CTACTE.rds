@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RptDataSource xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Name>DATOS_PARA_CTACTE</Name>
+  <ConnectionProperties>
+    <Extension>SQL</Extension>
+    <ConnectString>Data Source=lariosql70;Initial Catalog=DATOS_COBRANZAS</ConnectString>
+  </ConnectionProperties>
+  <DataSourceID>c1ca31a1-78cb-49dd-bdd5-e3c1daa7531a</DataSourceID>
+</RptDataSource>
