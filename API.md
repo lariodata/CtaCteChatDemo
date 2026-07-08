@@ -8,27 +8,27 @@
 python main_api.py
 ```
 
-La API estará disponible en `http://localhost:8000`
+La API estará disponible en `http://localhost:8080`
 
 Documentación interactiva:
-- Swagger UI: http://localhost:8000/docs
-- ReDoc: http://localhost:8000/redoc
+- Swagger UI: http://localhost:8080/docs
+- ReDoc: http://localhost:8080/redoc
 
 ### 2. Llamadas de ejemplo
 
 #### Health check
 ```bash
-curl http://localhost:8000/health
+curl http://localhost:8080/health
 ```
 
 #### Obtener tools disponibles para un usuario
 ```bash
-curl http://localhost:8000/tools/vendedor1
+curl http://localhost:8080/tools/vendedor1
 ```
 
 #### Enviar un chat
 ```bash
-curl -X POST http://localhost:8000/chat \
+curl -X POST http://localhost:8080/chat \
   -H "Content-Type: application/json" \
   -d '{
     "usuario": "vendedor1",
@@ -39,7 +39,7 @@ curl -X POST http://localhost:8000/chat \
 
 #### Reportes de gerente
 ```bash
-curl -X POST http://localhost:8000/chat \
+curl -X POST http://localhost:8080/chat \
   -H "Content-Type: application/json" \
   -d '{
     "usuario": "gerente1",
@@ -178,7 +178,7 @@ python client_api_example.py chat gerente1 "¿Cuál es la deuda total de la zona
 
 ### Vendedor consultando deuda de un cliente
 ```bash
-curl -X POST http://localhost:8000/chat \
+curl -X POST http://localhost:8080/chat \
   -H "Content-Type: application/json" \
   -d '{
     "usuario": "vendedor1",
@@ -189,7 +189,7 @@ curl -X POST http://localhost:8000/chat \
 
 ### Vendedor listando clientes morosos de su zona
 ```bash
-curl -X POST http://localhost:8000/chat \
+curl -X POST http://localhost:8080/chat \
   -H "Content-Type: application/json" \
   -d '{
     "usuario": "vendedor1",
@@ -200,7 +200,7 @@ curl -X POST http://localhost:8000/chat \
 
 ### Gerente obtiene reportes consolidados
 ```bash
-curl -X POST http://localhost:8000/chat \
+curl -X POST http://localhost:8080/chat \
   -H "Content-Type: application/json" \
   -d '{
     "usuario": "gerente1",
@@ -211,7 +211,7 @@ curl -X POST http://localhost:8000/chat \
 
 ### Gerente compara zonas
 ```bash
-curl -X POST http://localhost:8000/chat \
+curl -X POST http://localhost:8080/chat \
   -H "Content-Type: application/json" \
   -d '{
     "usuario": "gerente1",
