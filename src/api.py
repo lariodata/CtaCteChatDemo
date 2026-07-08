@@ -10,6 +10,7 @@ Requiere: FastAPI, uvicorn, pydantic
 """
 
 from fastapi import FastAPI, HTTPException, Query
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 import logging
 
@@ -21,6 +22,15 @@ app = FastAPI(
     title="ctacte-chat-demo API",
     description="Chat con LLM sobre cuentas corrientes (RBAC, cache, tools)",
     version="1.0.0"
+)
+
+# Enable CORS for frontend access
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Allow all origins (development)
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 
