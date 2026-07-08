@@ -265,7 +265,31 @@
             currentProvider = e.target.value;
         });
 
-        console.log('Dashboard initialized');
+        // Hamburger menu toggle
+        const hamburgerBtn = document.getElementById('hamburger-btn');
+        const dashboard = document.getElementById('dashboard');
+
+        hamburgerBtn.addEventListener('click', () => {
+            dashboard.classList.toggle('mobile-open');
+        });
+
+        // Close dashboard when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!dashboard.contains(e.target) && !hamburgerBtn.contains(e.target)) {
+                dashboard.classList.remove('mobile-open');
+            }
+        });
+
+        // Close when user selects an option
+        document.getElementById('user-selector').addEventListener('change', () => {
+            dashboard.classList.remove('mobile-open');
+        });
+
+        document.getElementById('provider-select').addEventListener('change', () => {
+            dashboard.classList.remove('mobile-open');
+        });
+
+        console.log('App initialized - Dashboard and mobile menu ready');
     </script>
 </body>
 </html>
