@@ -8,7 +8,7 @@
 
 ## 1. Overview
 
-Migrate the Chat Cuenta Corriente frontend from Streamlit to a modern, responsive Single Page Application (SPA) built with vanilla HTML5, CSS3, and JavaScript. The new interface features a dark mode theme, a fixed dashboard panel (desktop) / collapsible menu (mobile), and modern chat bubbles for conversation rendering.
+Migrate the Chat Cuenta Corriente frontend from Streamlit to a modern, responsive Single Page Application (SPA) built with vanilla HTML5, CSS3, and JavaScript. The new interface features a dark mode theme with LARIO brand colors (red accent, black background, golden highlights), a fixed dashboard panel (desktop) / collapsible menu (mobile), and modern chat bubbles for conversation rendering.
 
 **Key Goals:**
 - Eliminate Streamlit dependency for frontend
@@ -156,20 +156,21 @@ Append to message history (session storage or in-memory)
 
 ---
 
-## 5. Color Palette (Dark Mode)
+## 5. Color Palette (LARIO Brand Dark Mode)
 
 | Element | Color | Usage |
 |---------|-------|-------|
-| Background Primary | `#0a0e27` | Main bg, very dark blue-black |
-| Background Secondary | `#1a1f3a` | Panel bg, slightly lighter |
-| Accent | `#06d6d0` | Buttons, highlights, user bubbles |
-| Text Primary | `#e0e6ed` | Main text, almost white |
-| Text Secondary | `#a8b2c1` | Muted text, timestamps |
-| Border | `#2a2f4a` | Borders, dividers |
-| Bot Bubble | `#252d4a` | Bot message background |
-| User Bubble | `#06d6d0` (with opacity 0.2) | User message highlight |
+| Background Primary | `#0a0a0a` | Main bg, true black (LARIO maintenance aesthetic) |
+| Background Secondary | `#1a1a1a` | Panel bg, slightly lighter |
+| Accent Primary | `#E31C23` | Buttons, highlights, user bubbles (LARIO red) |
+| Accent Secondary | `#D4A574` | Golden accents, borders (warm highlight) |
+| Text Primary | `#ffffff` | Main text, pure white |
+| Text Secondary | `#b0b0b0` | Muted text, timestamps |
+| Border | `#2a2a2a` | Borders, dividers |
+| Bot Bubble | `#1a1a1a` | Bot message background |
+| User Bubble | `#E31C23` (with opacity 0.15) | User message accent |
 | Error | `#ff6b6b` | Error messages |
-| Success | `#51cf66` | Success messages |
+| Success | `#4ade80` | Success messages |
 
 ---
 
