@@ -29,24 +29,26 @@ def test_api_tools_vendedor():
     assert response.status_code == 200
     data = response.json()
     assert data["usuario"] == "vendedor1"
-    assert len(data["tools"]) == 3, "Vendedor debe tener 3 tools"
+    assert len(data["tools"]) == 4, "Vendedor debe tener 4 tools"
     tool_names = [t["name"] for t in data["tools"]]
     assert "consultar_deuda" in tool_names
     assert "detalle_movimientos" in tool_names
     assert "clientes_por_zona" in tool_names
-    print("✓ Tools vendedor OK (3 tools)")
+    assert "buscar_cliente_por_nombre" in tool_names
+    print("✓ Tools vendedor OK (4 tools)")
 
 
 def test_api_tools_gerente():
-    """GET /tools/gerente1 devuelve 4 tools (con consulta_custom)."""
+    """GET /tools/gerente1 devuelve 5 tools (con consulta_custom)."""
     response = client.get("/tools/gerente1")
     assert response.status_code == 200
     data = response.json()
     assert data["usuario"] == "gerente1"
-    assert len(data["tools"]) == 4, "Gerente debe tener 4 tools"
+    assert len(data["tools"]) == 5, "Gerente debe tener 5 tools"
     tool_names = [t["name"] for t in data["tools"]]
     assert "consulta_custom" in tool_names, "Gerente debe tener consulta_custom"
-    print("✓ Tools gerente OK (4 tools)")
+    assert "buscar_cliente_por_nombre" in tool_names
+    print("✓ Tools gerente OK (5 tools)")
 
 
 def test_api_tools_invalid_user():
