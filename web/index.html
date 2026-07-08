@@ -513,7 +513,58 @@
         // Auto-refresh every 30 seconds
         setInterval(checkHealth, 30000);
 
-        console.log('App initialized - Health check ready');
+        // Load tools function
+        async function loadTools(usuario) {
+            try {
+                const response = await fetch(`${API_URL}/tools/${usuario}`);
+                const data = await response.json();
+
+                const toolsList = document.getElementById('tools-list');
+                toolsList.innerHTML = '';
+
+                if (data.tools && data.tools.length > 0) {
+                    data.tools.forEach(tool => {
+                        const toolDiv = document.createElement('div');
+                        toolDiv.style.marginBottom = '0.8rem';
+                        toolDiv.style.paddingBottom = '0.8rem';
+                        toolDiv.style.borderBottom = '1px solid var(--color-border)';
+
+                        const toolName = document.createElement('p');
+                        toolName.style.fontWeight = '600';
+                        toolName.style.color = 'var(--color-accent-primary)';
+                        toolName.style.marginBottom = '0.3rem';
+                        toolName.textContent = `🔧 ${tool.name}`;
+
+                        const toolDesc = document.createElement('p');
+                        toolDesc.style.fontSize = '0.8rem';
+                        toolDesc.style.color = 'var(--color-text-secondary)';
+                        toolDesc.textContent = tool.description;
+
+                        toolDiv.appendChild(toolName);
+                        toolDiv.appendChild(toolDesc);
+                        toolsList.appendChild(toolDiv);
+                    });
+                } else {
+                    toolsList.textContent = 'Sin tools disponibles';
+                }
+            } catch (error) {
+                const toolsList = document.getElementById('tools-list');
+                toolsList.textContent = 'Error cargando tools';
+            }
+        }
+
+        // Load tools on start
+        loadTools(currentUser);
+
+        // Reload tools when user changes
+        document.getElementById('user-selector').addEventListener('change', (e) => {
+            if (e.target.type === 'radio') {
+                currentUser = e.target.value;
+                loadTools(currentUser);
+            }
+        });
+
+        console.log('App initialized - Tools loading ready');
     </script>
 </body>
 </html>
