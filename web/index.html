@@ -196,6 +196,57 @@
             }
         }
 
+        /* Chat Form Styling */
+        #chat-form {
+            padding: 1.5rem;
+            border-top: 1px solid var(--color-border);
+            background-color: var(--color-bg-secondary);
+            display: flex;
+            gap: 0.8rem;
+        }
+
+        #message-input {
+            flex: 1;
+            padding: 0.8rem;
+            background-color: var(--color-bg-primary);
+            color: var(--color-text-primary);
+            border: 1px solid var(--color-border);
+            border-radius: 4px;
+            font-size: 0.95rem;
+            font-family: inherit;
+        }
+
+        #message-input:focus {
+            outline: none;
+            border-color: var(--color-accent-primary);
+            box-shadow: 0 0 0 3px rgba(227, 28, 35, 0.2);
+        }
+
+        #send-btn {
+            padding: 0.8rem 1.5rem;
+            background-color: var(--color-accent-primary);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-weight: 600;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: opacity 0.2s;
+        }
+
+        #send-btn:hover {
+            opacity: 0.9;
+        }
+
+        #send-btn:active {
+            opacity: 0.8;
+        }
+
+        #send-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
         /* Responsive: Mobile */
         @media (max-width: 767px) {
             #app {
@@ -274,7 +325,22 @@
 
         <main id="chat-area">
             <div id="messages-container"></div>
-            <form id="chat-form"></form>
+            <form id="chat-form" style="padding: 1.5rem; border-top: 1px solid var(--color-border); background-color: var(--color-bg-secondary); display: flex; gap: 0.8rem;">
+                <input
+                    id="message-input"
+                    type="text"
+                    placeholder="Tu pregunta..."
+                    autocomplete="off"
+                    style="flex: 1; padding: 0.8rem; background-color: var(--color-bg-primary); color: var(--color-text-primary); border: 1px solid var(--color-border); border-radius: 4px; font-size: 0.95rem;"
+                />
+                <button
+                    id="send-btn"
+                    type="submit"
+                    style="padding: 0.8rem 1.5rem; background-color: var(--color-accent-primary); color: white; border: none; border-radius: 4px; font-weight: 600; cursor: pointer; white-space: nowrap;"
+                >
+                    Enviar
+                </button>
+            </form>
         </main>
     </div>
 
@@ -394,11 +460,33 @@
             messagesContainer.scrollTop = messagesContainer.scrollHeight;
         }
 
-        // Test render
-        renderMessage("Hola, ¿cómo estás?", "user");
-        renderMessage("Estoy bien, ¿cómo puedo ayudarte?", "assistant");
+        // Chat form handling
+        const chatForm = document.getElementById('chat-form');
+        const messageInput = document.getElementById('message-input');
+        const sendBtn = document.getElementById('send-btn');
 
-        console.log('App initialized - Chat bubbles ready');
+        chatForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const message = messageInput.value.trim();
+            if (!message) return;
+
+            // Render user message
+            renderMessage(message, 'user');
+
+            // Clear input and focus
+            messageInput.value = '';
+            messageInput.focus();
+
+            // Simulate bot response (to be replaced with API call in Phase 3)
+            setTimeout(() => {
+                renderMessage('Respuesta pendiente (conectar a API)', 'assistant');
+            }, 500);
+        });
+
+        messageInput.focus();
+
+        console.log('App initialized - Chat form ready');
     </script>
 </body>
 </html>
