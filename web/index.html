@@ -465,7 +465,7 @@
         const messageInput = document.getElementById('message-input');
         const sendBtn = document.getElementById('send-btn');
 
-        chatForm.addEventListener('submit', (e) => {
+        chatForm.addEventListener('submit', async (e) => {
             e.preventDefault();
 
             const message = messageInput.value.trim();
@@ -473,15 +473,49 @@
 
             // Render user message
             renderMessage(message, 'user');
-
-            // Clear input and focus
             messageInput.value = '';
-            messageInput.focus();
 
-            // Simulate bot response (to be replaced with API call in Phase 3)
-            setTimeout(() => {
-                renderMessage('Respuesta pendiente (conectar a API)', 'assistant');
-            }, 500);
+            // Disable input while processing
+            messageInput.disabled = true;
+            sendBtn.disabled = true;
+            sendBtn.textContent = '⏳ Enviando...';
+
+            try {
+                const response = await fetch(`${API_URL}/chat`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        usuario: currentUser,
+                        mensaje: message,
+                        provider: currentProvider,
+                        max_iterations: 3
+                    }),
+                    timeout: 120000 // 2 minutes
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    renderMessage(data.respuesta, 'assistant');
+                } else {
+                    const errorData = await response.json();
+                    const errorMsg = errorData.detail || `Error ${response.status}`;
+                    renderMessage(`❌ Error: ${errorMsg}`, 'assistant');
+                }
+            } catch (error) {
+                let errorMsg = '❌ Error inesperado';
+                if (error.name === 'AbortError') {
+                    errorMsg = '⏱️ Timeout: La solicitud tardó demasiado. Verifica la conexión.';
+                } else if (error.message.includes('Failed to fetch')) {
+                    errorMsg = `❌ No se puede conectar a ${API_URL}`;
+                }
+                renderMessage(errorMsg, 'assistant');
+            } finally {
+                // Re-enable input
+                messageInput.disabled = false;
+                sendBtn.disabled = false;
+                sendBtn.textContent = 'Enviar';
+                messageInput.focus();
+            }
         });
 
         messageInput.focus();
