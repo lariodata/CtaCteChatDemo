@@ -28,8 +28,8 @@ Orquestador (+ cache) → Backend (FastAPI) → UI (chat web).
 | **3** | LLM Provider + Ollama/Qwen tool-calling | ✅ Completada |
 | **4** | Orquestador + cache + tool genérica | ✅ Completada |
 | **5** | Backend FastAPI + 3 endpoints + 8/8 tests | ✅ Completada |
-| **6** | CI/CD + cobertura 80%+ (EN PROGRESO) | 🔄 Implementando |
-| **7** | UI web (React/Streamlit) | 📋 Pendiente |
+| **6** | CI/CD + cobertura 80%+ + 63/73 tests | ✅ Completada |
+| **7** | UI web SPA (HTML5/CSS3/JS + Dark Mode LARIO) | ✅ Completada |
 | **8** | Logging + Monitoring | 📋 Pendiente |
 | **9** | Auth JWT + Rate limiting | 📋 Pendiente |
 
