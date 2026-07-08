@@ -430,6 +430,7 @@
         // Render message function
         function renderMessage(content, role) {
             const messagesContainer = document.getElementById('messages-container');
+            const wasAtBottom = messagesContainer.scrollTop + messagesContainer.clientHeight >= messagesContainer.scrollHeight - 10;
 
             const messageDiv = document.createElement('div');
             messageDiv.className = `message ${role}`;
@@ -457,7 +458,10 @@
 
             messageDiv.appendChild(timestamp);
             messagesContainer.appendChild(messageDiv);
-            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+
+            if (wasAtBottom) {
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            }
         }
 
         // Chat form handling
@@ -530,10 +534,13 @@
                 const data = await response.json();
 
                 const healthStatus = document.getElementById('health-status');
+                const now = new Date();
+                const timeStr = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
+
                 if (response.ok) {
-                    healthStatus.innerHTML = '<span style="color: #51cf66;">✅ API Operativa</span>';
+                    healthStatus.innerHTML = `<span style="color: #51cf66;">✅ API Operativa</span><br><span style="font-size: 0.8rem; color: var(--color-text-secondary);">${timeStr}</span>`;
                 } else {
-                    healthStatus.innerHTML = '<span style="color: #ff6b6b;">❌ API con error</span>';
+                    healthStatus.innerHTML = `<span style="color: #ff6b6b;">❌ Error ${response.status}</span>`;
                 }
             } catch (error) {
                 const healthStatus = document.getElementById('health-status');
@@ -598,7 +605,23 @@
             }
         });
 
-        console.log('App initialized - Tools loading ready');
+        // Initial greeting
+        window.addEventListener('load', () => {
+            const messagesContainer = document.getElementById('messages-container');
+            if (messagesContainer.children.length === 0) {
+                renderMessage('Hola 👋 ¿En qué puedo ayudarte?', 'assistant');
+            }
+        });
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+                e.preventDefault();
+                messageInput.focus();
+            }
+        });
+
+        console.log('App initialized - All features ready');
     </script>
 </body>
 </html>
