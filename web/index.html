@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Chat Cuenta Corriente</title>
+    <style>
+        /* CSS Variables - LARIO Brand Colors */
+        :root {
+            --color-bg-primary: #0a0a0a;
+            --color-bg-secondary: #1a1a1a;
+            --color-accent-primary: #E31C23;
+            --color-accent-secondary: #D4A574;
+            --color-text-primary: #ffffff;
+            --color-text-secondary: #b0b0b0;
+            --color-border: #2a2a2a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: var(--color-bg-primary);
+            color: var(--color-text-primary);
+            line-height: 1.5;
+        }
+
+        /* Layout Grid */
+        #app {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            grid-template-rows: auto 1fr;
+            height: 100vh;
+            gap: 0;
+        }
+
+        /* Header */
+        header {
+            grid-column: 1 / -1;
+            background-color: var(--color-bg-secondary);
+            padding: 1rem;
+            border-bottom: 1px solid var(--color-border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .header-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        /* Sidebar Dashboard */
+        aside {
+            background-color: var(--color-bg-secondary);
+            padding: 1.5rem;
+            border-right: 1px solid var(--color-border);
+            overflow-y: auto;
+        }
+
+        /* Main Chat Area */
+        main {
+            display: flex;
+            flex-direction: column;
+            background-color: var(--color-bg-primary);
+        }
+
+        /* Responsive: Mobile */
+        @media (max-width: 767px) {
+            #app {
+                grid-template-columns: 1fr;
+            }
+
+            #hamburger-btn {
+                display: block !important;
+            }
+
+            aside {
+                display: none;
+                position: fixed;
+                top: 3rem;
+                left: 0;
+                width: 80%;
+                max-width: 300px;
+                height: calc(100vh - 3rem);
+                background-color: var(--color-bg-secondary);
+                border-right: 1px solid var(--color-border);
+                z-index: 999;
+                overflow-y: auto;
+            }
+
+            aside.mobile-open {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <header>
+            <h1 class="header-title">💰 Chat Cuenta Corriente</h1>
+            <button id="hamburger-btn" style="display: none; background: none; border: none; color: #fff; font-size: 1.5rem; cursor: pointer;">☰</button>
+        </header>
+
+        <aside id="dashboard">
+            <h2>⚙️ Configuración</h2>
+        </aside>
+
+        <main id="chat-area">
+            <div id="messages-container"></div>
+            <form id="chat-form"></form>
+        </main>
+    </div>
+
+    <script>
+        // Placeholder for JavaScript
+        console.log('App initialized');
+    </script>
+</body>
+</html>
