@@ -486,7 +486,34 @@
 
         messageInput.focus();
 
-        console.log('App initialized - Chat form ready');
+        // API Integration
+        const API_URL = "http://localhost:8080"; // Update if backend runs on different port
+
+        // Health check function
+        async function checkHealth() {
+            try {
+                const response = await fetch(`${API_URL}/health`, { timeout: 2000 });
+                const data = await response.json();
+
+                const healthStatus = document.getElementById('health-status');
+                if (response.ok) {
+                    healthStatus.innerHTML = '<span style="color: #51cf66;">✅ API Operativa</span>';
+                } else {
+                    healthStatus.innerHTML = '<span style="color: #ff6b6b;">❌ API con error</span>';
+                }
+            } catch (error) {
+                const healthStatus = document.getElementById('health-status');
+                healthStatus.innerHTML = '<span style="color: #ff6b6b;">❌ No disponible</span>';
+            }
+        }
+
+        // Check health on load
+        checkHealth();
+
+        // Auto-refresh every 30 seconds
+        setInterval(checkHealth, 30000);
+
+        console.log('App initialized - Health check ready');
     </script>
 </body>
 </html>
