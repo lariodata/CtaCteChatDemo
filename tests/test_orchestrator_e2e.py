@@ -30,14 +30,15 @@ from src.cache import clear_cache, get_cache_stats
 
 
 def test_orchestrator_get_tools():
-    """Valida que get_tools_for_user devuelva los 3 tools para vendedor1."""
+    """Valida que get_tools_for_user devuelva los 4 tools para vendedor1."""
     tools_disponibles = tools.get_tools_for_user("vendedor1")
 
-    assert len(tools_disponibles) == 3, "Vendedor debe tener 3 tools"
+    assert len(tools_disponibles) == 4, "Vendedor debe tener 4 tools"
     tool_names = [t["name"] for t in tools_disponibles]
     assert "consultar_deuda" in tool_names
     assert "detalle_movimientos" in tool_names
     assert "clientes_por_zona" in tool_names
+    assert "buscar_cliente_por_nombre" in tool_names
 
 
 def test_orchestrator_consultar_deuda_directo():
@@ -177,17 +178,18 @@ def test_orchestrator_chat_rbac():
 # ============================================================================
 
 def test_etapa4_get_tools_gerente():
-    """Valida que gerente1 tenga acceso a 4 tools (incluyendo consulta_custom)."""
+    """Valida que gerente1 tenga acceso a 5 tools (incluyendo consulta_custom)."""
     clear_cache()
     tools_disponibles = tools.get_tools_for_user("gerente1")
 
-    assert len(tools_disponibles) == 4, "Gerente debe tener 4 tools (Etapa 4)"
+    assert len(tools_disponibles) == 5, "Gerente debe tener 5 tools (Etapa 4)"
     tool_names = [t["function"]["name"] for t in tools_disponibles]
     assert "consultar_deuda" in tool_names
     assert "detalle_movimientos" in tool_names
     assert "clientes_por_zona" in tool_names
     assert "consulta_custom" in tool_names, "Gerente debe tener acceso a consulta_custom"
-    print("✓ Gerente tiene 4 tools (incluyendo consulta_custom)")
+    assert "buscar_cliente_por_nombre" in tool_names
+    print("✓ Gerente tiene 5 tools (incluyendo consulta_custom)")
 
 
 def test_etapa4_vendedor_no_ve_consulta_custom():
@@ -195,7 +197,7 @@ def test_etapa4_vendedor_no_ve_consulta_custom():
     clear_cache()
     tools_disponibles = tools.get_tools_for_user("vendedor1")
 
-    assert len(tools_disponibles) == 3, "Vendedor debe tener 3 tools (sin consulta_custom)"
+    assert len(tools_disponibles) == 4, "Vendedor debe tener 4 tools (sin consulta_custom)"
     tool_names = [t["function"]["name"] for t in tools_disponibles]
     assert "consulta_custom" not in tool_names, "Vendedor no debe ver consulta_custom"
     print("✓ Vendedor no tiene acceso a consulta_custom")

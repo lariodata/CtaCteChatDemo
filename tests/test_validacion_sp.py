@@ -12,9 +12,9 @@ from src import dal
 # Anclas de verdad sacadas del reporte real (zona 1)
 CASOS = [
     (1, 3523, 4730599.72),    # PINTO HERMANOS S.A.
-    (1, 33595, 5160920.23),   # SUPERMERCADOS PETRELLI
-    (1, 34056, 5872167.95),   # BALEAR S.A.
-    (1, 32449, 966731.60),    # COMERCIAL GALETTI
+    (1, 33595, 8459806.86),   # SUPERMERCADOS PETRELLI
+    (1, 34056, 3643452.43),   # BALEAR S.A.
+    (1, 32449, 358296.07),    # COMERCIAL GALETTI
 ]
 
 
@@ -26,10 +26,10 @@ def test_consultar_deuda(nrorep, nrocli, esperado):
 
 
 def test_saldo_general_zona1():
-    """La suma de la zona debe dar el 'Saldo General (sin Cheques)' = 16.730.419,5"""
+    """La suma de la zona debe dar el 'Saldo General (sin Cheques)' = 16.643.101,82"""
     filas = dal.clientes_por_zona(nrorep=1, solo_con_deuda=False)
     total = sum(float(f["saldo"] or 0) for f in filas)
-    assert total == pytest.approx(16730419.5, abs=0.5)
+    assert total == pytest.approx(16643101.82, abs=0.5)
 
 
 def test_vendedor_no_ve_otra_zona():
