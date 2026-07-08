@@ -34,7 +34,8 @@ def chat(
     mensaje: str,
     llm_provider: LLMProvider | None = None,
     provider: str | None = None,
-    max_iterations: int = 3
+    max_iterations: int = 3,
+    historial: list | None = None
 ) -> str:
     """
     Chat interactivo con tool-calling end-to-end (Etapa 4: +cache).
@@ -153,9 +154,15 @@ EJEMPLOS CRÍTICOS:
     # Paso 2: Inicializar historial de mensajes con system prompt
     logger.info(f"SYSTEM PROMPT:\n{system_prompt}\n")  # DEBUG: Ver el prompt completo
     messages = [
-        {"role": "system", "content": system_prompt},
-        {"role": "user", "content": mensaje}
+        {"role": "system", "content": system_prompt}
     ]
+
+    # Agregar historial de conversación anterior si existe
+    if historial:
+        messages.extend(historial)
+
+    # Agregar mensaje actual
+    messages.append({"role": "user", "content": mensaje})
 
     # Paso 3: Loop LLM → tool → LLM
     for iteracion in range(max_iterations):

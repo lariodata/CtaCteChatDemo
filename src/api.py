@@ -50,6 +50,10 @@ class ChatRequest(BaseModel):
         description="Pregunta o comando del usuario",
         examples=["¿Cuánto debe el cliente 3523?", "Dame el top 3 morosos de zona 1"]
     )
+    historial: list = Field(
+        default_factory=list,
+        description="Historial de conversación anterior (para contexto)"
+    )
     max_iterations: int = Field(
         3,
         ge=1,
@@ -185,6 +189,7 @@ def chat_endpoint(request: ChatRequest):
         respuesta = orchestrator.chat(
             usuario=request.usuario,
             mensaje=request.mensaje,
+            historial=request.historial,
             provider=request.provider,
             max_iterations=request.max_iterations
         )

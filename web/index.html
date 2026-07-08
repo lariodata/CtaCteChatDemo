@@ -432,6 +432,7 @@
         // Store current user and provider
         let currentUser = USERS[0];
         let currentProvider = 'ollama';
+        let conversationHistory = [];  // Guardar historial para contexto
 
         document.getElementById('user-selector').addEventListener('change', (e) => {
             if (e.target.type === 'radio') {
@@ -524,6 +525,12 @@
             renderMessage(message, 'user');
             messageInput.value = '';
 
+            // Add user message to history
+            conversationHistory.push({
+                role: 'user',
+                content: message
+            });
+
             // Disable input while processing
             messageInput.disabled = true;
             sendBtn.disabled = true;
@@ -536,6 +543,7 @@
                     body: JSON.stringify({
                         usuario: currentUser,
                         mensaje: message,
+                        historial: conversationHistory,  // Enviar historial completo
                         provider: currentProvider,
                         max_iterations: 3
                     }),
@@ -545,6 +553,12 @@
                 if (response.ok) {
                     const data = await response.json();
                     renderMessage(data.respuesta, 'assistant');
+
+                    // Add assistant response to history
+                    conversationHistory.push({
+                        role: 'assistant',
+                        content: data.respuesta
+                    });
                 } else {
                     const errorData = await response.json();
                     const errorMsg = errorData.detail || `Error ${response.status}`;
@@ -646,6 +660,9 @@
         document.getElementById('user-selector').addEventListener('change', (e) => {
             if (e.target.type === 'radio') {
                 currentUser = e.target.value;
+                conversationHistory = [];  // Limpiar historial al cambiar usuario
+                document.getElementById('messages-container').innerHTML = '';  // Limpiar chat
+                renderMessage('Hola 👋 ¿En qué puedo ayudarte?', 'assistant');
                 loadTools(currentUser);
             }
         });
