@@ -70,6 +70,60 @@
             background-color: var(--color-bg-primary);
         }
 
+        /* Dashboard Styling */
+        aside h2 {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+        }
+
+        aside label {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--color-text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        aside input[type="radio"],
+        aside select,
+        aside button {
+            background-color: var(--color-bg-primary);
+            color: var(--color-text-primary);
+            border: 1px solid var(--color-border);
+            border-radius: 4px;
+            padding: 0.6rem;
+            cursor: pointer;
+        }
+
+        aside input[type="radio"]:checked {
+            accent-color: var(--color-accent-primary);
+        }
+
+        aside button {
+            width: 100%;
+            background-color: var(--color-accent-primary);
+            color: white;
+            font-weight: 600;
+            transition: opacity 0.2s;
+        }
+
+        aside button:hover {
+            opacity: 0.9;
+        }
+
+        .example-btn {
+            background-color: var(--color-bg-primary);
+            color: var(--color-text-primary);
+            border: 1px solid var(--color-accent-primary);
+            padding: 0.5rem 0.8rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.85rem;
+        }
+
+        .example-btn:hover {
+            background-color: var(--color-accent-primary);
+        }
+
         /* Responsive: Mobile */
         @media (max-width: 767px) {
             #app {
@@ -108,7 +162,42 @@
         </header>
 
         <aside id="dashboard">
-            <h2>⚙️ Configuración</h2>
+            <h2 style="font-size: 1.3rem; margin-bottom: 1.5rem; color: var(--color-accent-primary);">⚙️ Configuración</h2>
+
+            <!-- User Selector -->
+            <div style="margin-bottom: 1.5rem;">
+                <label style="display: block; font-size: 0.9rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--color-text-secondary);">Usuario</label>
+                <div id="user-selector" style="display: flex; flex-direction: column; gap: 0.5rem;">
+                    <!-- Radio buttons will be inserted here by JS -->
+                </div>
+            </div>
+
+            <!-- LLM Provider Selector -->
+            <div style="margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--color-border);">
+                <label for="provider-select" style="display: block; font-size: 0.9rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--color-text-secondary);">Modelo LLM</label>
+                <select id="provider-select" style="width: 100%; padding: 0.6rem; background-color: var(--color-bg-primary); color: var(--color-text-primary); border: 1px solid var(--color-border); border-radius: 4px; cursor: pointer;">
+                    <option value="ollama">Ollama (local, Qwen2.5)</option>
+                    <option value="claude_haiku">Claude Haiku (cloud)</option>
+                </select>
+            </div>
+
+            <!-- System Status -->
+            <div style="margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--color-border);">
+                <p style="font-size: 0.9rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--color-text-secondary);">Estado del sistema</p>
+                <p id="health-status" style="font-size: 0.9rem; color: var(--color-text-secondary);">🔄 Verificando...</p>
+            </div>
+
+            <!-- Tools Available -->
+            <div style="margin-bottom: 1.5rem;">
+                <p style="font-size: 0.9rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--color-text-secondary);">📋 Tools disponibles</p>
+                <div id="tools-list" style="font-size: 0.85rem; color: var(--color-text-secondary);">Cargando tools...</div>
+            </div>
+
+            <!-- Example Questions -->
+            <div style="background-color: var(--color-bg-primary); padding: 1rem; border-radius: 4px; border-left: 3px solid var(--color-accent-primary);">
+                <p style="font-size: 0.85rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--color-text-secondary);">💡 Ejemplos:</p>
+                <div id="examples-list" style="display: flex; flex-direction: column; gap: 0.5rem;"></div>
+            </div>
         </aside>
 
         <main id="chat-area">
@@ -118,8 +207,65 @@
     </div>
 
     <script>
-        // Placeholder for JavaScript
-        console.log('App initialized');
+        const USERS = ["vendedor1", "vendedor2", "gerente1"];
+        const EXAMPLES = [
+            "¿Cuánto debe cliente 3523?",
+            "Top 3 morosos de mi zona",
+            "Deuda total zona 1"
+        ];
+        const PROVIDERS = {
+            "Ollama (local, Qwen2.5)": "ollama",
+            "Claude Haiku (cloud)": "claude_haiku"
+        };
+
+        // Populate user selector
+        const userSelector = document.getElementById('user-selector');
+        USERS.forEach(user => {
+            const label = document.createElement('label');
+            label.style.display = 'flex';
+            label.style.alignItems = 'center';
+            label.style.gap = '0.5rem';
+            label.style.cursor = 'pointer';
+
+            const input = document.createElement('input');
+            input.type = 'radio';
+            input.name = 'user';
+            input.value = user;
+            if (user === USERS[0]) input.checked = true;
+
+            const text = document.createElement('span');
+            text.textContent = user === "gerente1" ? "👔 Gerente" : `👤 ${user}`;
+
+            label.appendChild(input);
+            label.appendChild(text);
+            userSelector.appendChild(label);
+        });
+
+        // Populate examples
+        const examplesList = document.getElementById('examples-list');
+        EXAMPLES.forEach(example => {
+            const btn = document.createElement('button');
+            btn.className = 'example-btn';
+            btn.textContent = example;
+            btn.type = 'button';
+            examplesList.appendChild(btn);
+        });
+
+        // Store current user and provider
+        let currentUser = USERS[0];
+        let currentProvider = 'ollama';
+
+        document.getElementById('user-selector').addEventListener('change', (e) => {
+            if (e.target.type === 'radio') {
+                currentUser = e.target.value;
+            }
+        });
+
+        document.getElementById('provider-select').addEventListener('change', (e) => {
+            currentProvider = e.target.value;
+        });
+
+        console.log('Dashboard initialized');
     </script>
 </body>
 </html>
