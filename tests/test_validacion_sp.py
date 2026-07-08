@@ -18,6 +18,7 @@ CASOS = [
 ]
 
 
+@pytest.mark.integration
 @pytest.mark.parametrize("nrorep,nrocli,esperado", CASOS)
 def test_consultar_deuda(nrorep, nrocli, esperado):
     r = dal.consultar_deuda(nrorep, nrocli)
@@ -25,6 +26,7 @@ def test_consultar_deuda(nrorep, nrocli, esperado):
     assert float(r["deuda_total"]) == pytest.approx(esperado, abs=0.01)
 
 
+@pytest.mark.integration
 def test_saldo_general_zona1():
     """La suma de la zona debe dar el 'Saldo General (sin Cheques)' = 16.643.101,82"""
     filas = dal.clientes_por_zona(nrorep=1, solo_con_deuda=False)
@@ -32,6 +34,7 @@ def test_saldo_general_zona1():
     assert total == pytest.approx(16643101.82, abs=0.5)
 
 
+@pytest.mark.integration
 def test_vendedor_no_ve_otra_zona():
     """Un cliente de zona 1 consultado como zona 3 no debe devolver deuda."""
     r = dal.consultar_deuda(nrorep=3, nrocli=3523)

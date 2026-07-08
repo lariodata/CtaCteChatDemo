@@ -41,6 +41,7 @@ def test_connection_string():
     print("✓ Cadena de conexión OK\n")
 
 
+@pytest.mark.integration
 def test_connection_without_database():
     """Intenta conectar a SQL Server SIN especificar BD (conecta a master)."""
     print(f"\n🔗 Test 1: Conectar sin especificar BD inicial (master)...\n")
@@ -68,6 +69,7 @@ def test_connection_without_database():
         return False
 
 
+@pytest.mark.integration
 def test_connection_with_database():
     """Intenta conectar a SQL Server especificando la BD DATOS_COBRANZAS."""
     print(f"\n🔗 Test 2: Conectar especificando BD DATOS_COBRANZAS...\n")
@@ -90,6 +92,7 @@ def test_connection_with_database():
         return False
 
 
+@pytest.mark.integration
 def test_sp_chat_consultar_deuda():
     """Intenta ejecutar el SP chat_consultar_deuda."""
     print(f"\n🔍 Test 3: Ejecutar SP chat_consultar_deuda...\n")
